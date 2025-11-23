@@ -61,12 +61,21 @@ sudo fail2ban-client status apache-401
 ## 結果
 ```bash
 sudo fail2ban-client status apache-401
-```
-
 - `Total failed: 3` を検知
 - `Currently banned: 1`
 - `Banned IP list: <YOUR_CLIENT_IP>`  
   → **401連打によりBAN成立**
+- apache-401 jail が有効化され、/secret/ への認証失敗(401)を検知。
+- maxretry=3 に調整後、クライアントIP(192.168.56.1)がBANされたことを確認。
+- unbanip コマンドで解除できることも確認。
+
+### 確認ログ（抜粋・テキストのみ）
+- `fail2ban-client status apache-401`
+  - Total failed: 3
+  - Currently banned: 1
+  - Banned IP list: 192.168.56.1
+- `fail2ban-client set apache-401 unbanip 192.168.56.1`
+  - Currently banned: 0
 
 ---
 
